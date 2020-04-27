@@ -479,9 +479,9 @@ class Picture:
                 for i in range(3):
                     nl = dot_product(normalize(normal(matrix, point)), LIGHT_VECTOR);
                     new_color[i] += max(0, color[i] * LIGHT_COLOR[i] * DIFFUSE[i] * nl) + \
-                        max(0, color[i] * LIGHT_COLOR[i] * SPECULAR[i] * dot_product([(2 * nl * normalize(normal(matrix, point))[c]) - LIGHT_VECTOR[c] for c in range(3)], self.view_vector))
+                        max(0,  LIGHT_COLOR[i] * SPECULAR[i] * \
+                            ((dot_product([(2 * nl * normalize(normal(matrix, point))[c]) - LIGHT_VECTOR[c] for c in range(3)], self.view_vector)) ** 2))
                     new_color[i] = min(255, new_color[i])
-                    new_color[i] = max(0, new_color[i]);
                 #print(new_color)
                 new_color = [int(c) for c in new_color]
                 self.fill_triangle(point, new_color)
